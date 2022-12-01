@@ -1,0 +1,84 @@
+recB = []; srecB = 0 #Lista de Receita Bruta e Soma de RB
+ded = []; sded = 0 #Lista de Deduções - IPI (Indústria) / ICMS (Comércio) / ISS (Serviços) e Soma de Ded
+dev = []; sdev = 0 #Lista de Devoluções (produtos devolvidos pós-vendas) e Soma de Dev
+cmv = []; scmv = 0 #Lista de Custo de Mercadorias Vendidas e Soma de CMV
+dadm = []; sdadm = 0 #Lista de Despesas Administrativas e Soma de Dadm
+dven = []; sdven = 0 #Lista de Despesas com Vendas e Soma de Dven
+dger = []; sdger = 0 #Lista de Despesas Gerais e Soma de Dger
+
+print("Sistema Contábil BPR2 (Comércio) - Gerar DRE Anual - Ano-Base 202X\n")
+
+#Entrada - % dos Impostos envolvidos no Comércio e Geral
+icms = input("Digite a % do ICMS (se for 10%, digite 10, se for 20%, digite 20, etc): ")
+icmst = float(icms) / 100.0
+
+irpf = input("Digite a % do IRPF (se for 10%, digite 10, se for 20%, digite 20, etc): ")
+irpfp = (f"{irpf}%")
+irpft = float(irpf) / 100.0
+
+csll = input("Digite a % do CSLL (se for 10%, digite 10, se for 20%, digite 20, etc): ")
+csllp = (f"{csll}%")
+csllt = float(csll) / 100.0
+
+print()
+
+#Entrada - Dados Necessários
+for x in range(0, 4) :
+  recB.append(float(input(f"Digite a Receita Bruta do Trimestre {x + 1}: ")))
+  srecB += recB[x]
+print(f"A Receita Bruta no Ano 202X foi de R$ {srecB:.2f}")
+print()
+  
+for x in range(0, 4) :
+  dev.append(float(input(f"Digite as Devoluções do Trimestre {x + 1}: ")))
+  sdev += dev[x]
+print(f"As Devoluções no Ano 202x foram de R$ {sdev:.2f}")
+print()
+  
+for x in range(0, 4) :
+  cmv.append(float(input(f"Digite o Custo das Mercadorias Vendidas no Trimestre {x + 1}: ")))
+  scmv += cmv[x]
+print(f"O Custo de Mercadoria Vendida no Ano 202x foi de R$ {scmv:.2f}")
+print()
+  
+for x in range(0, 4) :
+  dadm.append(float(input(f"Digite as Despesas Administrativas do Trimestre {x + 1}: ")))
+  sdadm += dadm[x]
+print(f"As Despesas Administrativas no Ano 202x foram de R$ {sdadm:.2f}")
+print()
+  
+for x in range(0, 4) :
+  dven.append(float(input(f"Digite as Despesas com Vendas do Trimestre {x + 1}: ")))
+  sdven += dven[x]
+print(f"As Despesas com Vendas no Ano 202x foram de R$ {sdven:.2f}")
+print()
+  
+for x in range(0, 4) :
+  dger.append(float(input(f"Digite as Despesas Gerais do Trimestre {x + 1}: ")))
+  sdger += dger[x]
+print(f"As Despesas Gerais no Ano 202x foram de R$ {sdger:.2f}")
+print()
+
+#Processamentos
+ded = srecB * icmst
+recL = srecB - ded - sdev #Receita Líquida = Receita Bruta - Deduções (ICMS) - Devoluções
+lucB = recL - scmv
+lucO = lucB - sdadm - sdven - sdger
+tirpf = lucO * irpft
+tcsll = lucO * csllt
+resE = lucO - tirpf - tcsll
+
+print("DEMONSTRAÇÃO DE RESULTADO - ANO 202X")
+print(f"(=) Receita Bruta                           {srecB:.2f}")
+print(f"(-) Deduções                               ({ded:.2f})")
+print(f"(-) Devoluções                             ({sdev:.2f})")
+print(f"(=) Receita Líquida                         {recL}")
+print(f"(-) Custo de Mercadoria Vendida            ({scmv:.2f})")
+print(f"(=) Lucro Bruto                             {lucB:.2f}")
+print(f"(-) Despesas Administrativas               ({sdadm:.2f})")
+print(f"(-) Despesas com Vendas                    ({sdven:.2f})")
+print(f"(-) Despesas Gerais                        ({sdger:.2f})")
+print(f"(=) Lucro Operacional                       {lucO:.2f}")
+print(f"(-) IRPF ({irpfp})                         ({tirpf:.2f})")
+print(f"(-) CSLL ({csllp})                         ({tcsll:.2f})")
+print(f"(=) Resultado do Exercício                  {resE:.2f}")
